@@ -1,0 +1,78 @@
+{
+	"connecting": "Connection en cours...",
+	"connected": "Connexion reussie",
+	"connectionerror": "Impossible de se connecter au serveur",
+	"connectionlost": "Connection perdue",
+	"login": "Authentification...",
+	"date": {
+		"year": "année",
+		"month": "mois",
+		"day": "jour",
+		"hour": "heure",
+		"minute": "minute",
+		"second": "seconde"
+	},
+	"offline": "Hors ligne",
+	"guest": "Connecté en invité (Token non transmis ou compte déjà en ligne)",
+	"roundend": "Fin du round!",
+	"newround": "Génération du nouveau niveau...",
+	"tooltip": {
+		"nickname": "Pseudo",
+		"online": "Joueurs en ligne",
+		"playerbest": "Record joueur",
+		"serverbest": "Record serveur",
+		"leaderboard": "Leaderboard",
+		"editor": "Editeur",
+		"profile": "Profil",
+		"round": "Nouveau niveau dans..."
+	},
+	"shareon": "Partager sur",
+	"editor": {
+		"title": "Editeur",
+		"presets": "Presets",
+		"default": "Mode normal",
+		"physic": "Physique",
+		"vx": "Velocité horizontale",
+		"g": "Gravitée",
+		"jump": "Force verticale"
+	},
+	"level": {
+		"title": "Level",
+		"id": "ID du niveau",
+		"gap": "Ecart entre obstacles (px)",
+		"factorgap": "Facteur obstacle dynamique",
+		"factorspeed": "Facteur vitesse obstacle dynamique",
+		"difficultymin": "Difficultée minimum (hauteur, px)",
+		"difficultymax": "Difficultée maximum (hauteur, px)"
+	},
+	"profile": {
+		"title": "ID online",
+		"uid": "Identifiant secret",
+		"reconnect": "Changer de compte",
+		"reconnecthelp": "Ce code est enregistré sur votre appareil (cookie) pour récupérer votre score / pseudo...",
+		"nickname": "Changer de pseudo",
+		"settings": "Préférences",
+		"boostfps": "Booster les FPS",
+		"displayall": "Afficher les joueurs",
+		"theme": "Theming",
+		"themeimport": "Importer un theme (.png)",
+		"themedownload": "Télécharger la base",
+		"themedownloadnight": "Nuit",
+		"themedownloadday": "Jour",
+		"sfx": "Son"
+	},
+	"leaderboard": {
+		"title": "Leaderboard",
+		"daily": "Aujourd'hui",
+		"alltime": "Tous les scores",
+		"previous": "Précédent",
+		"end": "Pas plus de scores",
+		"next": "Suivant",
+		"nickname": "Pseudo",
+		"loading": "Chargement..."
+	},
+	"error": {
+		"noghost": "Pas de replay pour ce score (<1.0)",
+		"notonline": "Le serveur est hors ligne"
+	}
+}

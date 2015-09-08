@@ -1,0 +1,78 @@
+{
+	"connecting": "Connecting...",
+	"connected": "Connected",
+	"connectionerror": "Unable to connect to server",
+	"connectionlost": "Connection lost",
+	"login": "Login...",
+	"date": {
+		"year": "year",
+		"month": "month",
+		"day": "day",
+		"hour": "hour",
+		"minute": "minute",
+		"second": "second"
+	},
+	"offline": "Hors ligne",
+	"guest": "Connected as guest (Unknown token or token already logged in)",
+	"roundend": "Generating new level...",
+	"newround": "Generating new level...",
+	"tooltip": {
+		"nickname": "Nickname",
+		"online": "Currently online",
+		"playerbest": "Your best score",
+		"serverbest": "Server highscore",
+		"leaderboard": "Leaderboard",
+		"editor": "Editor",
+		"profile": "Profile",
+		"round": "New level in..."
+	},
+	"shareon": "Share on",
+	"editor": {
+		"title": "Editor",
+		"presets": "Presets",
+		"default": "Default mode",
+		"physic": "Physic",
+		"vx": "Speed",
+		"g": "Gravity",
+		"jump": "Jump force"
+	},
+	"level": {
+		"title": "Level",
+		"id": "Seed",
+		"gap": "Gap width (px)",
+		"factorgap": "Dynamic obstacles (spawning probability)",
+		"factorspeed": "Dynamic obstacles (difficulty)",
+		"difficultymin": "Min difficulty (height, px)",
+		"difficultymax": "Max difficulty (height, px)"
+	},
+	"profile": {
+		"title": "Online ID",
+		"uid": "Secret key",
+		"reconnect": "Switch account",
+		"reconnecthelp": "This key allows you to recover your data each time you login (highscore, nickname...)",
+		"nickname": "Change nickname",
+		"settings": "Settings",
+		"boostfps": "Disable animated background",
+		"displayall": "Display other players",
+		"theme": "Theming",
+		"themeimport": "Import sprites sheet (.png)",
+		"themedownload": "Download the template",
+		"themedownloadnight": "Night",
+		"themedownloadday": "Day",
+		"sfx": "Sound"
+	},
+	"leaderboard": {
+		"title": "Leaderboard",
+		"daily": "Daily",
+		"alltime": "All-Time high scores",
+		"previous": "Previous",
+		"next": "Next",
+		"end": "No mode high scores",
+		"nickname": "Nickname",
+		"loading": "Loading..."
+	},
+	"error": {
+		"noghost": "The record is too old (<1.0)",
+		"notonline": "Server is offline"
+	}
+}
