@@ -148,6 +148,9 @@ CLIENT.js
 		// Scroller leaderboard
 		that.scroll = {};
 
+		// Debug path
+		that.debug = [];
+
 		///////////////////////////////////////////////////////////////////////////////////////////////////////////
 		///////////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -210,7 +213,11 @@ CLIENT.js
 
 			// Jump !
 			$(window).keydown(function(e) { 
-				if (e.keyCode == 32 || e.keyCode == 38 || e.keyCode == 16 || e.keyCode == 17) that.click(); 
+				if (e.keyCode == 32 || e.keyCode == 38 || e.keyCode == 16 || e.keyCode == 17) {
+					that.click(); 
+					return false;
+				}
+
 				if (e.keyCode == 37) that.explore('left'); 
 				if (e.keyCode == 39) that.explore('right'); 
 			});
@@ -386,7 +393,10 @@ CLIENT.js
 			});
 
 			// Presets default
-			that.presets['default'] = $.extend(true, {}, that.o);
+			that.presets['default'] = {
+				LEVEL: that.o.LEVEL,
+				PHYSICS: that.o.PHYSICS
+			};
 
 			// Sync UI>Options
 			that.settings();
@@ -682,6 +692,8 @@ CLIENT.js
 		that.startgame = function() {
 			if (that.player.is.dead || that.player.is.physic) return false;
 
+			that.debug = [];
+
 			that.camera.free = false;
 			that.camera.track = that.player.id;
 			that.time = 0;
@@ -769,6 +781,26 @@ CLIENT.js
 
 				// Draw
 				Bird.drawBird();
+			}
+
+			for (var i = 0; i < that.debug.length; i++) {
+				var point = that.debug[i];
+
+				that.ctx.fillStyle = "white";
+				that.ctx.strokeStyle = "rgba(0, 0, 0, 1)";
+
+				if (point.type == 'pipe') {
+					that.ctx.beginPath();
+					that.ctx.moveTo(point.x, point.top);
+					that.ctx.lineTo(point.x, point.bottom);
+					that.ctx.stroke();
+				}
+
+				if (point.type == 'path') {
+					that.ctx.beginPath();
+					that.ctx.arc(point.x,point.y,4,0,2*Math.PI);
+					that.ctx.fill();
+				}
 			}
 
 			// Draw overlay
@@ -965,8 +997,13 @@ CLIENT.js
 				that.setRewards(data.rewards);
 
 				// Synchronisation du level
+				$.extend(true, that.o, data.game);
 				that.o.LEVEL.SEED = parseInt(data.seed);
-				that.presets['default'].LEVEL.SEED = parseInt(data.seed);
+				that.presets['default'] = {
+					LEVEL: that.o.LEVEL,
+					PHYSICS: that.o.PHYSICS
+				};
+				that.settings();
 
 				// Regénération du level
 				that.drawLevel(true);
@@ -1044,6 +1081,10 @@ CLIENT.js
 				G.message();
 			});
 
+			that.io.on('debug', function(data) {
+				Array.prototype.push.apply(that.debug, data)
+			});
+
 			that.io.on('score', function(data) {
 				if (!(socket = that.getBird(data.id))) return false;
 				that.hideLiveboard(socket.id, data.score);
@@ -1051,6 +1092,9 @@ CLIENT.js
 				that.best = Math.max(data.score, that.best);
 				that.stats();
 				that.setRewards(data.rewards);
+
+				if (that.player.id == data.id)
+					that.player.kill();
 			});
 
 			that.io.on('rank', function(data) {
@@ -1139,11 +1183,6 @@ CLIENT.js
 					<td class="min" data-timeago="'+ts+'">'+that.ago(ts)+'</td>\
 					<td>'+data.join(' ')+'</td>\
 				</tr>');
-			});
-
-			that.io.on('debug', function(data) {
-				window.log = data;
-				console.log(window.log);
 			});
 		}
 
