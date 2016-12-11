@@ -9,11 +9,38 @@
 <html lang="fr">
 	<head>
 		<meta charset="UTF-8" />
-		<title>FlapIO - The Flappy Bird Multiplayer</title>
-	    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-		<meta property="og:title" content="The Flappy Bird Multiplayer" />
-		<meta property="og:description" content="Made just for fun. Play it here!" />
-		<meta property="og:image" content="http://flappytournament.xzl.fr/img/social.png" />
+		<title>FlapIO</title>
+		<meta charset="utf-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<meta name="description" content="Just for fun. Play it here!">
+		<meta name="author" content="Kevin Rostagni">
+		<meta name="title" content="Kevin Rostagni">
+		<meta name="robots" content="index">
+		<meta name="keywords" content="flappy bird, multiplayer, flapio">
+		<meta name="Indentifier-URL" content="http://flapio.kevinrostagni.me">
+		<meta name="theme-color" content="#006B74">
+		<meta name="msapplication-navbutton-color" content="#006B74">
+		<meta name="apple-mobile-web-app-status-bar-style" content="#006B74">
+
+		<meta name="DC.title" content="Kevin Rostagni">
+		<meta name="DC.creator" content="Kevin Rostagni">
+		<meta name="DC.subject" content="flappy bird, multiplayer, flapio">
+		<meta name="DC.description" content="Just for fun. Play it here!">
+		<meta name="DC.publisher" content="Kevin Rostagni">
+		<meta name="DC.format" content="website">
+		<meta name="DC.identifier" content="http://flapio.kevinrostagni.me">
+		<meta name="DC.language" content="fr">
+		<meta name="DC.coverage" content="World">
+		<meta name="DC.rights" content="© Kevin Rostagni - 2016">
+
+		<meta property="og:site_name" content="Kevin Rostagni">
+		<meta property="og:title" content="FlapIO">
+		<meta property="og:type" content="website">
+		<meta property="og:locale" content="fr_FR">
+		<meta property="og:url" content="https://kevinrostagni.me">
+		<meta property="og:image" content="http://flapio.kevinrostagni.me/img/social.png">
+		<meta property="og:description" content="Just for fun. Play it here!">
 		<link rel="icon" type="image/png" href="favicon.png" />
 		<link rel="stylesheet" href="fonts/passion/styles.css">
 		<link rel="stylesheet" href="css/bootstrap.min.css">
@@ -22,7 +49,7 @@
 		<script>
 			var THEME = '<?php echo $FlapIO->theme; ?>';
 			var SERVER = '<?php echo $FlapIO->server; ?>';
-			var L = JSON.parse('<?php echo json_encode($FlapIO->translation); ?>');
+			var L = <?php echo json_encode($FlapIO->translation); ?>;
 			var CONSOLE = <?php echo isset($_GET['console']) ? 'true' : 'false'; ?>;
 		</script>
 	</head>
@@ -109,7 +136,6 @@
 												<div class="social">
 													<span id="facebook" class="tips" title="<?php echo $FlapIO->translation['shareon']; ?> Facebook"></span>
 													<span id="twitter" class="tips" title="<?php echo $FlapIO->translation['shareon']; ?> Twitter"></span>
-													<span id="google" class="tips" title="<?php echo $FlapIO->translation['shareon']; ?> Google+"></span>
 												</div>
 											</div>
 										</div>
@@ -415,7 +441,7 @@
 		</section>
 
 		<footer id="footer">
-			<div class="container">FlapIO <code>V1.b</code> Created by <a href="http://xzl.fr">xzl</a>. Based on Flappy Bird by Dong Nguyen.</div>
+			<div class="container">FlapIO <code>V1.1</code> Created by <a target="_blank" href="https://kevinrostagni.me">tucsky</a>. Based on Flappy Bird by Dong Nguyen.</div>
 		</footer>
 
 		<!-- REQUIRED -->
@@ -430,16 +456,5 @@
 
 	    <!-- SERVER -->
 		<script src="<?php echo $FlapIO->server; ?>/socket.io/socket.io.js"></script>
-
-		<!-- ANALYTIC -->
-		<script>
-			(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-			(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-			m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-			})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
-
-			ga('create', 'UA-45598000-2', 'xzl.fr');
-			ga('send', 'pageview');
-		</script>
 	</body>
 </html>

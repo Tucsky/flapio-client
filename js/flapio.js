@@ -17,7 +17,6 @@ CLIENT.js
 			online: false, edited: false, ableToReplay: true, ready: false, tab: false
 		};
 
-
 		// Camera
 		that.camera = {
 			target: 0, x: 0, y: 0, free: false, track: null
@@ -428,6 +427,12 @@ CLIENT.js
 			$('.connect').on('click', function() {
 				var uid = $('#profil_uid').val().replace(/[^a-z0-9]/gi,'');
 					$('#profil_uid').val(uid);
+
+				if (G.o.USER && G.o.USER.UID == uid) {
+					that.message("L'UID saisi doit être different de l'identifiant actuel!");
+					return;
+				}
+
 				if (uid.length < 8) {
 					that.message("L'UID doit contenir au moins 8 caractères!");
 					return;
@@ -446,13 +451,13 @@ CLIENT.js
 
 			// Share
 			$("#facebook").on("click",function(){
-				window.open("https://www.facebook.com/sharer/sharer.php?u=http://flappytournament.xzl.fr/","","status=0,toolbar=0,height=250,width=600");
+				window.open("https://www.facebook.com/sharer/sharer.php?u="+encodeURIComponent(location.href),"","status=0,toolbar=0,height=250,width=600");
 			});
 			$("#twitter").on("click",function(){
-				window.open("https://twitter.com/home?status=I%20just%20scored%20"+that.player.score+"%20points%20on%20%23FlappyTournament%20!%20http://flappytournament.xzl.fr/","","status=0,toolbar=0,height=250,width=600")
+				window.open("https://twitter.com/home?status="+encodeURIComponent('I just scored '+that.player.score+' points on FlapIO ! http://flapio.kevinrostagni.me/ #flappybird #lel'),"","status=0,toolbar=0,height=250,width=600")
 			});
 			$('#google').on("click", function() {
-				window.open("https://plus.google.com/share?url=http://flappytournament.xzl.fr/","","status=0,toolbar=0,height=500,width=520");
+				window.open("https://plus.google.com/share?url="+encodeURIComponent(location.href),"","status=0,toolbar=0,height=500,width=520");
 			});
 
 			// Round
@@ -487,13 +492,10 @@ CLIENT.js
 				e.preventDefault();
 				e.stopPropagation();
 			}).on('drop', function(e) {
-				console.log('drop');
-				console.log(e.originalEvent.dataTransfer);
 				if (e.originalEvent.dataTransfer && e.originalEvent.dataTransfer.files.length) {
 					e.preventDefault();
 					e.stopPropagation();
 					that.loadTheme(e.originalEvent.dataTransfer);
-					console.log(e.originalEvent.dataTransfer.files);
 				}
 			});
 
@@ -505,10 +507,20 @@ CLIENT.js
 		}
 
 		that.setRewards = function(rewards) {
-			for (var i = 0; i < 3; i++)
-				that.rewards[i] && (bird = that.getBird(that.rewards[i].id)) && (bird.skin = that.skins['default']);
-			for (var i = 0; i < 3; i++)
-				rewards[i] && (bird = that.getBird(rewards[i].id)) && (bird.skin = that.skins[(i+1)]);
+			var assigned = [];
+
+			for (var i = 0; i < 3; i++) {
+				var oldBird = that.getBird(that.rewards[i] && that.rewards[i].id),
+					newBird = that.getBird(rewards[i] && rewards[i].id);
+
+				if (oldBird && (!newBird || oldBird.id != newBird.id))
+					oldBird.skin = that.skins['default'];
+
+				if (newBird && assigned.indexOf(newBird.id) < 0) {
+					newBird.skin = that.skins[(i+1)];
+					assigned.push(newBird.id);
+				}
+			}
 
 			that.rewards = rewards;
 		}
