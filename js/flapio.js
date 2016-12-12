@@ -11,6 +11,7 @@ CLIENT.js
 
 		// Timestamp
 		that.time = 0;
+		that.timeDilatation = 0;
 
 		// Etats
 		that.is = {
@@ -536,7 +537,6 @@ CLIENT.js
 		}
 
 		that.loadTheme = function(input) {
-			console.log(input,input.files);
 			if (input.files && input.files[0]) {
 				var reader = new FileReader();
 
@@ -738,9 +738,18 @@ CLIENT.js
 
 		/* Animation Frame ()
 		*/
-
-		that.render = function() {
+		that.render = function(t) {
 			if (that.stop) return;
+
+			if (that.player && that.player.is.dead) {
+				if (that.timeDilatation == 0) {
+					that.deadAt = that.time;
+					that.timeDilatation = 2.75;
+				}
+
+				if ((that.time - (that.deadAt - 55)) % (that.timeDilatation *= 1.002) < 2)
+					return window.requestAnimationFrame(that.render);
+			}
 
 			// Incrementation du temps
 			that.time++;
@@ -848,6 +857,8 @@ CLIENT.js
 
 		that.gameover = function(show, best) {
 			if (show) {
+				$('body').addClass('gameover');
+
 				$('#overlay .flash').show().fadeOut(200, function() {
 
 					that.sfx('die');
@@ -875,7 +886,7 @@ CLIENT.js
 		that.translate = function() {
 			if (!that.camera.free) {
 				var Bird = that.getBird(that.camera.track) || that.player;
-				!Bird.is.dead && (that.camera.target = Bird.x - 100);
+				that.camera.target = Bird.x - 100;
 			}
 
 			!that.camera.free && (Bird = that.getBird(that.camera.track)) && !Bird.is.dead && (that.camera.target = Bird.x - 100);
@@ -1292,19 +1303,23 @@ CLIENT.js
 							if (Bird.y > pipe.y - 10 + Bird.h / 2 && Bird.y < pipe.y + pipe.d + 10 - Bird.h / 2) {
 								if (Bird.x > pipe.x - Bird.w / 2 + 10 && Bird.x < pipe.x + that.o.LEVEL.WIDTH + Bird.w / 2 - 10) {
 									if (Bird.y - pipe.y < pipe.d/2) {
-										Bird.vy *= -0.5,
+										//console.log('touch pipe TOP');
+										Bird.vy *= - 0.5,
 										Bird.y = pipe.y + Bird.h / 2;
-									} else {
-										Bird.vy *= - 0.5
+									} else if (Bird.vy > 0) {
+										Bird.vy *= - .75;
+										//console.log('touch pipe BOTTOM', Bird.vy);
 										Bird.y = pipe.y + pipe.d - Bird.h / 2;
 									}
 									Bird.kill();
 								}
 							} else {
 								if (Bird.x - pipe.x < that.o.LEVEL.WIDTH/2) {
+									//console.log('Touch front');
 									Bird.vx *= -2;
 									Bird.x = pipe.x + 1 - Bird.w / 2;
 								} else {
+									//console.log('Touch back');
 									Bird.vx *= 0.5;
 									Bird.x = pipe.x + that.o.LEVEL.WIDTH - 1 + Bird.w / 2;
 								}
@@ -1318,6 +1333,7 @@ CLIENT.js
 
 				if (pipe && !pipe.m) {
 					if ((Bird.y + Bird.h / 2 == that.o.PHYSICS.GRND && Bird.r.toFixed(2) == 0.01) || (Bird.last.r.toFixed(4)== Bird.r.toFixed(4) && Bird.last.vy.toFixed(4) == Bird.vy.toFixed(4) && Bird.vy >= -1)) {
+						//console.log('Stabilize vY');
 						Bird.ground = true, Bird.vy = 0;
 					}
 				}
@@ -1416,6 +1432,10 @@ CLIENT.js
 				Bird.flaps.i = 0;
 
 				if (!Bird.player) return; 
+
+				that.timeDilatation = 0;
+				$('body').removeClass('gameover');
+				console.info('reset');
 
 				Bird.flaps = {
 					data: [],

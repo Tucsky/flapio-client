@@ -152,6 +152,10 @@ input, textarea, select, button, a {
 	body.day #game { background-image: url(../img/sprites/day.jpg); }
 	body.night #game { background-image: url(../img/sprites/night.jpg); }
 
+	body.gameover div#render {
+		filter: grayscale(1) contrast(1.5);
+	}
+
 /* Layout
 */
 
