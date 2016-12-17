@@ -222,7 +222,7 @@ CLIENT.js
 				if (e.keyCode == 37) that.explore('left'); 
 				if (e.keyCode == 39) that.explore('right'); 
 			});
-			$('#screen .container').on('mousedown', function(e) {
+			$('#screen .container').on(Modernizr.touchevents ? 'touchstart' : 'mousedown', function(e) {
 				that.click();
 			}).on("contextmenu", function (e) {
 				return e.preventDefault();
@@ -253,6 +253,7 @@ CLIENT.js
 
 			// Live tracking
 			$('#liveboard').on('mouseenter', 'li', function(e) {
+				console.log('ok');
 				that.camera.track = $(this).data('id');
 			}).on('mouseleave', 'li', function(e) {
 				that.camera.track = that.player.id;
@@ -536,6 +537,21 @@ CLIENT.js
 			that.rewards = rewards;
 		}
 
+		that.resizeImage = function(image) {
+			var canvas = document.createElement('canvas'),
+				ctx = canvas.getContext('2d');
+
+				canvas.width = 582;
+				canvas.height = 1000;
+				console.log(image.width, image.height, canvas.width, canvas.height);
+				ctx.drawImage(image, 0, 0, canvas.width, canvas.height);
+
+			var output = new Image();
+				output.src = canvas.toDataURL();
+
+			return output;
+		}
+
 		that.loadTheme = function(input) {
 			if (input.files && input.files[0]) {
 				var reader = new FileReader();
@@ -544,12 +560,16 @@ CLIENT.js
 					that.theme = new Image();
 					that.theme.src = e.target.result;
 
+					that.theme = that.resizeImage(that.theme);
+
 					// Init level
 					that.level = [];
 
 					// Init background
 					that.initScenery('background');
 					that.initScenery('foreground');
+
+					$(that.canvas).css('background', 'white');
 
 					// Scores
 					that.drawScore(that.player.score || 0);
@@ -656,15 +676,19 @@ CLIENT.js
 		}
 
 		that.resize = function() {
-			that.canvas.width = that.cache.width = $('#screen .container').width();
+			that.mobile = $(window).width() < 768 ? true : false;
+
+			that.canvas.width = that.cache.width = that.mobile ? $('#screen .container').width() * (that.o.HEIGHT / $(window).height()) : $('#screen .container').width();
 			that.canvas.height = that.cache.height = that.o.HEIGHT;
 			that.camera.x = 0
 			that.o.SPEED.x = 0
 			that.initScenery('background');
 			that.initScenery('foreground');
-			if (that.player) that.drawScore(that.player.score || 0);
 
-			that.mobile = $(window).width() < 768 ? true : false;
+			$(that.canvas).css('height', that.mobile ? $(window).height() : '');
+			$('div#overlay .ui > div').css('height', that.mobile ? $(window).height() : '');
+
+			if (that.player) that.drawScore(that.player.score || 0);
 		}
 
 		that.prepare = function() {

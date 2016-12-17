@@ -61,7 +61,7 @@
 						<div id="logo">FlapIO <sup><span class="label label-success version">The Flappy Bird Multiplayer</span></sup></div>
 					</div>
 					<div class="col-md-8 col-sm-7 col-xs-12">
-						<ul><li class="toggle io-toggle tips" data-placement="bottom" title="Toggle menu"></li></ul>
+						<ul><li class="toggle io-toggle tips"></li></ul>
 						<nav id="menu">
 							<ul>
 								<li data-tab="leaderboard" class="io-graph tips" data-placement="top" title="<?php echo $FlapIO->translation['tooltip']['leaderboard']; ?>"></li>
@@ -445,6 +445,7 @@
 		</footer>
 
 		<!-- REQUIRED -->
+		<script src="js/modernizr.js"></script>
 		<script src="js/utils.js"></script>
 	    <script src="js/jquery.js"></script>
 	    <script src="js/jqueryui.js"></script>

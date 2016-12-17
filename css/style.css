@@ -156,6 +156,10 @@ input, textarea, select, button, a {
 		filter: grayscale(1) contrast(1.5);
 	}
 
+	body.gameover div#overlay .live {
+		z-index: 0;
+	}
+
 /* Layout
 */
 
@@ -454,7 +458,7 @@ input, textarea, select, button, a {
 
 	div#overlay .live {
 		visibility: visible;
-		z-index: 0;
+		z-index: 1;
 	}
 
 	div#overlay .live .wrapper {
