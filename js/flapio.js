@@ -1347,9 +1347,19 @@ CLIENT.js
 			Bird.drawBird = function() {
 				// Selection du skin
 				var skin = Bird.is.dead ? Bird.skin['dead'] : Bird.skin['alive'];
-				if (Bird.frame.t % Bird.frame.speed == 0 || !skin[Bird.frame.i]) Bird.frame.i = (++Bird.frame.i % skin.length), Bird.frame.t = 1; else Bird.frame.t++;
-				skin = skin[Bird.frame.i];
+				if (Bird.frame.t % Bird.frame.speed == 0 || !skin[Bird.frame.i]) {
+					Bird.frame.speed = 5;
+					if (!Bird.is.dead && Bird.is.physic) {
+						Bird.frame.i = Bird.vy > 5 ? 0 : 1, 
+						Bird.frame.t = 1;
+					} else {
+						Bird.frame.i = (++Bird.frame.i % skin.length), 
+						Bird.frame.t = 1; 
+					}
+				} else 
+					Bird.frame.t++;
 
+				skin = skin[Bird.frame.i];
 
 				// Rendus
 				that.ctx.save();
@@ -1411,6 +1421,10 @@ CLIENT.js
 
 				if (!Bird.player || Bird.flaps.data[Bird.flaps.data.length - 1] == Bird.x) return;
 				that.sfx('wing');
+
+				Bird.frame.speed = 10;
+				Bird.frame.i = 2;
+				Bird.frame.t = 1;
 				Bird.flaps.data.push(Bird.x);
 				Bird.flaps.ready.push(Bird.x);
 				Bird.emit.flap();
