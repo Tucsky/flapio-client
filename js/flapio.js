@@ -238,7 +238,7 @@ CLIENT.js
 			// Gameover
 			$('#overlay .gameover .dialog').on(Modernizr.touchevents ? 'touchstart' : 'mousedown', function(e) {
 				e.stopPropagation();
-				e.preventDefault();
+				//e.preventDefault();
 			});
 
 			// Ghosts
@@ -1701,7 +1701,6 @@ CLIENT.js
 		}
 
 		that.hideLiveboard = function(id, score) {
-			return;
 			if (that.is.edited || !score || !that.io) return;
 
 			if ($('#liveboard [data-id="'+id+'"]').length)
