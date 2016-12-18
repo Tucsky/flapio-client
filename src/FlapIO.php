@@ -26,7 +26,7 @@ class FlapIO {
 		$this->theme = $this->sprites[array_rand($this->sprites)];
 
 		# Server
-		$this->server = 'http://'.(strpos($_SERVER['REQUEST_URI'], 'localhost') == 0 || strpos($_SERVER['REQUEST_URI'], '192.168') == 0 ? $_SERVER['HTTP_HOST'].':3000' : 'flapio.herokuapp.com');
+		$this->server = 'http://'.(strpos($_SERVER['HTTP_HOST'], 'localhost') === 0 || strpos($_SERVER['HTTP_HOST'], '192.168') === 0 ? $_SERVER['HTTP_HOST'].':3000' : 'flapio.herokuapp.com');
 
 	}
 

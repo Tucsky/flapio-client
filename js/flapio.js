@@ -229,14 +229,14 @@ CLIENT.js
 			});
 
 			// Messages
-			$('#overlay .message .content').on('mousedown', function(e) {
+			$('#overlay .message .content').on(Modernizr.touchevents ? 'touchstart' : 'mousedown', function(e) {
 				e.stopPropagation();
 				e.preventDefault();
 				that.message();
 			});
 
 			// Gameover
-			$('#overlay .gameover .dialog').on('mousedown', function(e) {
+			$('#overlay .gameover .dialog').on(Modernizr.touchevents ? 'touchstart' : 'mousedown', function(e) {
 				e.stopPropagation();
 				e.preventDefault();
 			});
@@ -252,8 +252,12 @@ CLIENT.js
 			});
 
 			// Live tracking
-			$('#liveboard').on('mouseenter', 'li', function(e) {
-				console.log('ok');
+			$('#liveboard').on(Modernizr.touchevents ? 'touchstart' : 'mouseenter', 'li', function(e) {
+				if (Modernizr.touchevents && $('body').hasClass('playing'))
+					return;
+
+				e.stopPropagation();
+				e.preventDefault();
 				that.camera.track = $(this).data('id');
 			}).on('mouseleave', 'li', function(e) {
 				that.camera.track = that.player.id;
@@ -543,7 +547,7 @@ CLIENT.js
 
 				canvas.width = 582;
 				canvas.height = 1000;
-				console.log(image.width, image.height, canvas.width, canvas.height);
+
 				ctx.drawImage(image, 0, 0, canvas.width, canvas.height);
 
 			var output = new Image();
@@ -676,7 +680,7 @@ CLIENT.js
 		}
 
 		that.resize = function() {
-			that.mobile = $(window).width() < 768 ? true : false;
+			that.mobile = $(window).width() <= 992 ? true : false;
 
 			that.canvas.width = that.cache.width = that.mobile ? $('#screen .container').width() * (that.o.HEIGHT / $(window).height()) : $('#screen .container').width();
 			that.canvas.height = that.cache.height = that.o.HEIGHT;
@@ -872,7 +876,8 @@ CLIENT.js
 			}
 
 			$('#overlay .message .content').html(that.stripAccents(str));
-			$('#overlay .message').attr('class', 'message'+(o.class ? ' '+o.class : '')).css('visibility','visible').hide().fadeIn(300);
+			$('#overlay .message .wrapper').css('top', $('#overlay').height() * .75);
+			$('#overlay .message').attr('class', 'message'+(o.class ? ' '+o.class : '')).css('visibility', 'visible').hide().fadeIn(300);
 
 			$('#overlay .message').data('timeout', setTimeout(function() {
 				that.message();
@@ -903,7 +908,7 @@ CLIENT.js
 					that.player.last.best = that.player.best;
 				});
 			} else {
-				$('#overlay .gameover .dialog').animate({top:-400},{duration: 300, easing: 'easeOutQuint'});
+				$('#overlay .gameover .dialog').animate({top:-$(window).height()},{duration: 300, easing: 'easeOutQuint'});
 			}
 		}
 
@@ -1473,7 +1478,6 @@ CLIENT.js
 
 				that.timeDilatation = 0;
 				$('body').removeClass('gameover');
-				console.info('reset');
 
 				Bird.flaps = {
 					data: [],
@@ -1697,6 +1701,7 @@ CLIENT.js
 		}
 
 		that.hideLiveboard = function(id, score) {
+			return;
 			if (that.is.edited || !score || !that.io) return;
 
 			if ($('#liveboard [data-id="'+id+'"]').length)

@@ -1,7 +1,18 @@
-@media (max-width: 768px) {
+@media (max-width: 992px) {
+
+	body > .wrapper {    
+		position: static;
+		top: auto;
+		transform: none;
+		-webkit-transform: none;
+		-moz-transform: none;
+		-o-transform: none;
+		-ms-transform: none;
+	}
 
 	.container {
 		padding: 0px;
+		width: 100%;
 	}
 
 	div#overlay .message .content {
@@ -79,7 +90,11 @@
 		left: 0;
 	
 		right: auto;
-}
+	}
+
+	div#overlay .live .wrapper {
+		bottom: 0;
+	}
 
 	div#overlay .ui .inner .title:first-child {
 		padding: 4px 0px;
